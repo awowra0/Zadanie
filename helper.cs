@@ -4,6 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 public static class Helper
 {
+    public static void CreateDatabase()
+    {
+        using var context = new AppDbContext();
+        {
+            context.Database.SetConnectionString("Server=localhost;Database=master;Integrated Security=true;TrustServerCertificate=True;");
+            var query = context.Database.ExecuteSqlRaw(
+            """
+                CREATE DATABASE  db_prod
+            """
+            );
+        }
+    }
+    
     public static void RunSql()
     {
         string connectionString =
@@ -182,4 +195,5 @@ public static class Helper
             File.WriteAllText("taskThree.csv", savedata);
         }
     }
+
 }
